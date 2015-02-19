@@ -12,6 +12,7 @@ class TextBox(object):
             "id" : None,
             "command" : None,
                 function to execute upon enter key
+                Callback for command takes 2 args, id and final (the string in the textbox)
             "active" : True,
             "color" : pg.Color("white"),
                 background color
@@ -25,6 +26,8 @@ class TextBox(object):
             "inactive_on_enter" : True
             "blink_speed": 500
                 prompt blink time in milliseconds
+            "delete_speed": 500
+                backspace held clear speed in milliseconds
             
         Values:
             self.rect = pg.Rect(rect)
@@ -35,6 +38,7 @@ class TextBox(object):
             self.render_area = None
             self.blink = True
             self.blink_timer = 0.0
+            self.delete_timer = 0.0
             self.accepted = string.ascii_letters+string.digits+string.punctuation+" "
         '''
         self.rect = pg.Rect(rect)
@@ -45,6 +49,7 @@ class TextBox(object):
         self.render_area = None
         self.blink = True
         self.blink_timer = 0.0
+        self.delete_timer = 0.0
         self.accepted = string.ascii_letters+string.digits+string.punctuation+" "
         self.process_kwargs(kwargs)
 
@@ -60,7 +65,8 @@ class TextBox(object):
                     "font" : pg.font.Font(None, self.rect.height+4),
                     "clear_on_enter" : False,
                     "inactive_on_enter" : True,
-                    "blink_speed": 500}
+                    "blink_speed": 500,
+                    "delete_speed": 75}
         for kwarg in kwargs:
             if kwarg in defaults:
                 defaults[kwarg] = kwargs[kwarg]
@@ -93,6 +99,19 @@ class TextBox(object):
         self.active = not self.inactive_on_enter
         if self.clear_on_enter:
             self.buffer = []
+            
+    def switch_blink(self):
+        if pg.time.get_ticks()-self.blink_timer > self.blink_speed:
+            self.blink = not self.blink
+            self.blink_timer = pg.time.get_ticks()
+            
+    def handle_held_backspace(self):
+        if pg.time.get_ticks()-self.delete_timer > self.delete_speed:
+            self.delete_timer = pg.time.get_ticks()
+            keys = pg.key.get_pressed()
+            if keys[pg.K_BACKSPACE]:
+                if self.buffer:
+                    self.buffer.pop()
 
     def update(self):
         '''
@@ -110,9 +129,8 @@ class TextBox(object):
                                            self.render_rect.height)
             else:
                 self.render_area = self.rendered.get_rect(topleft=(0,0))
-        if pg.time.get_ticks()-self.blink_timer > self.blink_speed:
-            self.blink = not self.blink
-            self.blink_timer = pg.time.get_ticks()
+        self.switch_blink()
+        self.handle_held_backspace()
 
     def draw(self,surface):
         '''

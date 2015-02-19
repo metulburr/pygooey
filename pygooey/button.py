@@ -114,7 +114,9 @@ class Button(object):
             self.hovered = False
 
     def draw(self,surface):
-        """Update needs to be called every frame in the main loop."""
+        '''
+        Call once on your main game loop
+        '''
         color = self.color
         text = self.text
         border = self.border_color

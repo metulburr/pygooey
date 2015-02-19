@@ -17,7 +17,7 @@ settings = {
     "command" : print_on_enter,
     "inactive_on_enter" : False,
 }
-entry = pygooey.TextBox((70,100,150,30), **settings)
+entry = pygooey.TextBox(rect=(70,100,150,30), **settings)
 
 while not done:
     for event in pg.event.get():
