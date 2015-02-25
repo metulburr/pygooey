@@ -14,14 +14,14 @@ def print_on_press():
 
 #see all settings help(pygooey.Button.__init__)
 settings = {
-            "clicked_font_color" : (0,0,0),
-            "hover_font_color"   : (205,195, 100),
-            'font'               : pg.font.Font(None,16),
-            'font_color'         : (255,255,255),
-            'border_color'       : (0,0,0),
+    "clicked_font_color" : (0,0,0),
+    "hover_font_color"   : (205,195, 100),
+    'font'               : pg.font.Font(None,16),
+    'font_color'         : (255,255,255),
+    'border_color'       : (0,0,0),
 }
 
-btn = pygooey.Button((10,10,105,25), print_on_press, text='Press Me', **settings)
+btn = pygooey.Button(rect=(10,10,105,25), command=print_on_press, text='Press Me', **settings)
 
 while not done:
     mouse = pg.mouse.get_pos()

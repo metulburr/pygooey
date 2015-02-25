@@ -104,14 +104,6 @@ class TextBox(object):
         if pg.time.get_ticks()-self.blink_timer > self.blink_speed:
             self.blink = not self.blink
             self.blink_timer = pg.time.get_ticks()
-            
-    def handle_held_backspace(self):
-        if pg.time.get_ticks()-self.delete_timer > self.delete_speed:
-            self.delete_timer = pg.time.get_ticks()
-            keys = pg.key.get_pressed()
-            if keys[pg.K_BACKSPACE]:
-                if self.buffer:
-                    self.buffer.pop()
 
     def update(self):
         '''
@@ -131,6 +123,14 @@ class TextBox(object):
                 self.render_area = self.rendered.get_rect(topleft=(0,0))
         self.switch_blink()
         self.handle_held_backspace()
+        
+    def handle_held_backspace(self):
+        if pg.time.get_ticks()-self.delete_timer > self.delete_speed:
+            self.delete_timer = pg.time.get_ticks()
+            keys = pg.key.get_pressed()
+            if keys[pg.K_BACKSPACE]:
+                if self.buffer:
+                    self.buffer.pop()
 
     def draw(self,surface):
         '''
