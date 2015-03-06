@@ -14,6 +14,7 @@ class TextBox(object):
                 function to execute upon enter key
                 Callback for command takes 2 args, id and final (the string in the textbox)
             "active" : True,
+                textbox active on opening of window
             "color" : pg.Color("white"),
                 background color
             "font_color" : pg.Color("black"),
@@ -71,7 +72,7 @@ class TextBox(object):
             if kwarg in defaults:
                 defaults[kwarg] = kwargs[kwarg]
             else:
-                raise KeyError("InputBox accepts no keyword {}.".format(kwarg))
+                raise KeyError("TextBox accepts no keyword {}.".format(kwarg))
         self.__dict__.update(defaults)
 
     def get_event(self,event, mouse_pos=None):

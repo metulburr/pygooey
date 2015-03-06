@@ -11,16 +11,21 @@ widgets = []
 def textbox_callback(id, final):
     print('enter pressed, textbox contains {}'.format(final))
     
+def alternative_callback(id, final):
+    print('alternative textbox contains {}'.format(final))
+    
 def button_callback():
     print('button pressed, textbox contains {}'.format(entry.final))
 
 #see all settings help(pygooey.TextBox.__init__)
 entry_settings = {
-    "command" : textbox_callback,
     "inactive_on_enter" : False,
+    'active':False
 }
-entry = pygooey.TextBox(rect=(70,100,150,30), **entry_settings)
+entry = pygooey.TextBox(rect=(70,100,150,30), command=textbox_callback, **entry_settings)
 widgets.append(entry)
+entry2 = pygooey.TextBox(rect=(70,200,150,30), command=alternative_callback, **entry_settings)
+widgets.append(entry2)
 
 #see all settings help(pygooey.Button.__init__)
 btn_settings = {
